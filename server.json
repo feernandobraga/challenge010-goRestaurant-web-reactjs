@@ -23,6 +23,22 @@
       "price": "25.90",
       "available": true,
       "image": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food3.png"
+    },
+    {
+      "name": "Ao Sugo",
+      "image": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food1.png",
+      "price": "221.21",
+      "description": "Deliciosa macarronada ao molho sugo... sugo seu dinheiro",
+      "available": true,
+      "id": 4
+    },
+    {
+      "name": "Na grelha",
+      "image": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food1.png",
+      "price": "31.13",
+      "description": "Você ja viu macarrão na grelha??? claro que nao",
+      "available": true,
+      "id": 5
     }
   ]
 }

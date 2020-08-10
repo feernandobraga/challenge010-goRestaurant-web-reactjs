@@ -27,7 +27,10 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     async function loadFoods(): Promise<void> {
-      // TODO LOAD FOODS
+      // retrieve all foods from api
+      api.get('/foods').then(response => {
+        setFoods(response.data);
+      });
     }
 
     loadFoods();
@@ -37,7 +40,17 @@ const Dashboard: React.FC = () => {
     food: Omit<IFoodPlate, 'id' | 'available'>,
   ): Promise<void> {
     try {
-      // TODO ADD A NEW FOOD PLATE TO THE API
+      const { name, image, price, description } = food;
+      const newDish = {
+        name,
+        image,
+        price,
+        description,
+        available: true,
+      };
+      const response = await api.post('/foods', newDish);
+      setFoods([...foods, response.data]);
+      // "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food1.png"
     } catch (err) {
       console.log(err);
     }
@@ -46,11 +59,23 @@ const Dashboard: React.FC = () => {
   async function handleUpdateFood(
     food: Omit<IFoodPlate, 'id' | 'available'>,
   ): Promise<void> {
-    // TODO UPDATE A FOOD PLATE ON THE API
+    const response = await api.put(`/foods/${editingFood.id}`, {
+      ...editingFood, // gets the information for the food we are currently editing
+      ...food, // overwrite the information we input using the modal, but preserves the ID and the dish availability
+    });
+
+    const updatedFoods = foods.map(dish => {
+      return dish.id === editingFood.id ? response.data : dish;
+    });
+
+    setFoods(updatedFoods);
   }
 
   async function handleDeleteFood(id: number): Promise<void> {
     // TODO DELETE A FOOD PLATE FROM THE API
+    const updatedMenu = foods.filter(dish => dish.id !== id);
+    await api.delete(`/foods/${id}`);
+    setFoods(updatedMenu);
   }
 
   function toggleModal(): void {
@@ -63,6 +88,8 @@ const Dashboard: React.FC = () => {
 
   function handleEditFood(food: IFoodPlate): void {
     // TODO SET THE CURRENT EDITING FOOD ID IN THE STATE
+    toggleEditModal();
+    setEditingFood(food);
   }
 
   return (
